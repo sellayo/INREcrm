@@ -5,17 +5,10 @@ import { createClient } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X, Shield, User as UserIcon, MoreVertical, Trash2, Search, Filter } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAuth, UserRole, UserStatus } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { Contact } from '@/app/crm/page';
-
-interface UserData {
-  id: string;
-  name: string;
-  role: UserRole;
-  status: UserStatus;
-  created_at: string;
-}
+import { Contact, UserData, UserRole, UserStatus } from '@/types';
+import toast from 'react-hot-toast';
 
 export default function TeamManagementPage() {
   const { role: currentUserRole } = useAuth();
@@ -142,9 +135,9 @@ export default function TeamManagementPage() {
     if (!error) {
       setLeads(leads.map(l => selectedLeads.includes(l.id) ? { ...l, assigned_sales_id: selectedRep } : l));
       setSelectedLeads([]);
-      alert(`Successfully assigned ${selectedLeads.length} leads!`);
+      toast.success(`Successfully assigned ${selectedLeads.length} leads!`);
     } else {
-      alert('Failed to assign leads.');
+      toast.error('Failed to assign leads.');
     }
     setIsAssigning(false);
   };

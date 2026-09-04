@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Copy, X, User, Mail, Phone, Briefcase, Link, Trash2, Edit2, Check, ChevronDown, FileText } from 'lucide-react';
-import { Contact } from '@/app/crm/page';
+import { Contact } from '@/types';
 import { cn } from '@/lib/utils';
 import DocumentGenerator from './DocumentGenerator';
 
@@ -172,8 +172,11 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
               {[
                 { icon: Mail, label: 'Email', key: 'email', value: isEditing ? editData.email : contact.email },
                 { icon: Phone, label: 'Phone', key: 'phone', value: isEditing ? editData.phone : contact.phone },
+                { icon: Phone, label: 'WhatsApp', key: 'whatsapp_number', value: isEditing ? editData.whatsapp_number : contact.whatsapp_number },
                 { icon: Briefcase, label: 'Niche', key: 'niche', value: isEditing ? editData.niche : contact.niche },
-                { icon: Link, label: 'Social', key: 'social_media', value: isEditing ? editData.social_media : contact.social_media }
+                { icon: Briefcase, label: 'Service', key: 'service', value: isEditing ? editData.service : contact.service },
+                { icon: Link, label: 'Social', key: 'social_media', value: isEditing ? editData.social_media : contact.social_media },
+                { icon: FileText, label: 'Notes', key: 'notes', value: isEditing ? editData.notes : contact.notes }
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
                   <div className="flex items-center gap-3 overflow-hidden flex-1">
@@ -183,12 +186,20 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
                     <div className="overflow-hidden flex-1">
                       <p className="text-[10px] font-bold text-slate-400 uppercase">{item.label}</p>
                       {isEditing ? (
-                        <input 
-                          type={item.key === 'email' ? 'email' : item.key === 'phone' ? 'tel' : 'text'}
-                          value={item.value || ''}
-                          onChange={e => setEditData({...editData, [item.key]: e.target.value})}
-                          className="w-full text-sm font-medium text-slate-900 bg-white border border-slate-300 rounded px-2 py-1 mt-0.5 focus:ring-1 focus:ring-blue-500 outline-none"
-                        />
+                        item.key === 'notes' ? (
+                          <textarea 
+                            value={item.value || ''}
+                            onChange={e => setEditData({...editData, [item.key]: e.target.value})}
+                            className="w-full text-sm font-medium text-slate-900 bg-white border border-slate-300 rounded px-2 py-1 mt-0.5 focus:ring-1 focus:ring-blue-500 outline-none resize-y min-h-[60px]"
+                          />
+                        ) : (
+                          <input 
+                            type={item.key === 'email' ? 'email' : item.key === 'phone' || item.key === 'whatsapp_number' ? 'tel' : 'text'}
+                            value={item.value || ''}
+                            onChange={e => setEditData({...editData, [item.key]: e.target.value})}
+                            className="w-full text-sm font-medium text-slate-900 bg-white border border-slate-300 rounded px-2 py-1 mt-0.5 focus:ring-1 focus:ring-blue-500 outline-none"
+                          />
+                        )
                       ) : (
                         <p className="text-sm font-medium text-slate-900 truncate">
                           {item.value || <span className="text-slate-400 italic font-normal">Not provided</span>}

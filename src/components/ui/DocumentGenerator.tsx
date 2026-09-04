@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, Download, Save, FileText, CheckCircle, Plus, Trash2 } from 'lucide-react';
-import { Contact } from '@/app/crm/page';
+import { Contact, LineItem } from '@/types';
 import { createClient } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
 import html2pdf from 'html2pdf.js';
+import toast from 'react-hot-toast';
 
 interface DocumentGeneratorProps {
   contact: Contact;
@@ -18,12 +19,7 @@ interface DocumentGeneratorProps {
 
 type DocType = 'proposal' | 'invoice' | 'receipt';
 
-interface LineItem {
-  id: string;
-  service: string;
-  description: string;
-  price: string;
-}
+
 
 export default function DocumentGenerator({ contact, isOpen, onClose, onContactUpdate, initialDocType = 'invoice' }: DocumentGeneratorProps) {
   const [docType, setDocType] = useState<DocType>(initialDocType);
@@ -69,7 +65,7 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
     
     // Pre-fill from latest document
     const fetchLatest = async () => {
-      const table = docType === 'invoice' ? 'invoices' : 'receipts';
+      const table = docType === 'proposal' ? 'proposals' : 'invoices';
       const { data } = await supabase
         .from(table)
         .select('*')
@@ -104,13 +100,13 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
     setLineItems([...lineItems, { id: Math.random().toString(), service: '', description: '', price: '' }]);
   };
 
-  const removeLineItem = (id: string) => {
-    if (lineItems.length > 1) {
-      setLineItems(lineItems.filter(item => item.id !== id));
-    }
+  const removeLineItem = (id?: string) => {
+    if (!id || lineItems.length <= 1) return;
+    setLineItems(lineItems.filter(item => item.id !== id));
   };
 
-  const updateLineItem = (id: string, field: keyof LineItem, value: string) => {
+  const updateLineItem = (id: string | undefined, field: keyof LineItem, value: string) => {
+    if (!id) return;
     setLineItems(lineItems.map(item => item.id === id ? { ...item, [field]: value } : item));
   };
 
@@ -189,7 +185,7 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
     } catch (error: unknown) {
       console.error("Save Error:", JSON.stringify(error, null, 2), error);
       const err = error as { message?: string, details?: string };
-      alert('Failed to save document to CRM. ' + (err.message || err.details || JSON.stringify(error)));
+      toast.error('Failed to save document to CRM. ' + (err.message || err.details || JSON.stringify(error)));
     } finally {
       setIsSaving(false);
     }
@@ -242,28 +238,30 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Payment Method</label>
-                  <input 
-                    type="text" 
-                    value={paymentMethod}
-                    onChange={e => setPaymentMethod(e.target.value)}
-                    placeholder="e.g. UPI via Google Pay"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
+              {docType === 'receipt' && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Payment Method</label>
+                    <input 
+                      type="text" 
+                      value={paymentMethod}
+                      onChange={e => setPaymentMethod(e.target.value)}
+                      placeholder="e.g. UPI via Google Pay"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Transaction ID</label>
+                    <input 
+                      type="text" 
+                      value={transactionId}
+                      onChange={e => setTransactionId(e.target.value)}
+                      placeholder="e.g. 620563402"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Transaction ID</label>
-                  <input 
-                    type="text" 
-                    value={transactionId}
-                    onChange={e => setTransactionId(e.target.value)}
-                    placeholder="e.g. 620563402"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
+              )}
             </div>
 
             <div className="pt-4 border-t border-slate-100">
@@ -391,13 +389,13 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
                     <span>{address}</span>
                   </div>
                 )}
-                {paymentMethod && (
+                {paymentMethod && docType === 'receipt' && (
                   <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
                     <span style={{ fontWeight: 'bold', width: '144px' }}>PAYMENT METHOD:</span>
                     <span>{paymentMethod}</span>
                   </div>
                 )}
-                {transactionId && (
+                {transactionId && docType === 'receipt' && (
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <span style={{ fontWeight: 'bold', width: '144px' }}>TRANSACTION ID:</span>
                     <span>{transactionId}</span>

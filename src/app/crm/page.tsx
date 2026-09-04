@@ -8,21 +8,9 @@ import { Search, Filter } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase';
+import toast from 'react-hot-toast';
 
-// We need a local Contact interface since we removed the global one from AuthContext
-export interface Contact {
-  id: string;
-  name: string;
-  email?: string;
-  phone?: string;
-  niche: string;
-  social_media?: string;
-  status?: string;
-  type: 'lead' | 'client';
-  assigned_sales_id?: string;
-  receipts?: { id: string; line_items: any[]; created_at: string }[];
-  invoices?: any[];
-}
+import { Contact } from '@/types';
 
 export default function CRMPage() {
   const { role, user } = useAuth();
@@ -97,7 +85,10 @@ export default function CRMPage() {
         name: updatedContact.name, 
         email: updatedContact.email, 
         phone: updatedContact.phone, 
+        whatsapp_number: updatedContact.whatsapp_number,
         niche: updatedContact.niche, 
+        service: updatedContact.service,
+        notes: updatedContact.notes,
         social_media: updatedContact.social_media,
         status: updatedContact.status
       })
@@ -107,17 +98,20 @@ export default function CRMPage() {
       setContacts(prev => prev.map(c => c.id === updatedContact.id ? updatedContact : c));
       setSelectedContact(updatedContact);
     } else {
-      alert('Failed to update contact');
+      toast.error('Failed to update contact');
     }
   };
 
   const handleDeleteContact = async (id: string) => {
-    const { error } = await supabase.from('contacts').delete().eq('id', id);
+    // Call the safe delete RPC to handle constraints and role checks
+    const { error } = await supabase.rpc('delete_contact', { contact_id: id });
+    
     if (!error) {
       setContacts(prev => prev.filter(c => c.id !== id));
       setSelectedContact(null);
     } else {
-      alert('Failed to delete contact');
+      console.error(error);
+      toast.error('Failed to delete contact: ' + (error.message || JSON.stringify(error)));
     }
   };
 
@@ -127,14 +121,21 @@ export default function CRMPage() {
       
     if (!error) {
       setContacts(prev => prev.map(c => c.id === id ? { ...c, type: 'client', status: 'won' } : c));
-      alert('Successfully transferred to Internal CRM as a Client!');
+      toast.success('Successfully transferred to Internal CRM as a Client!');
     } else {
       console.error(error);
-      alert('Failed to transfer contact: ' + (error.message || JSON.stringify(error)));
+      toast.error('Failed to transfer contact: ' + (error.message || JSON.stringify(error)));
     }
   };
 
-  const statusOptions = ['all', 'new', 'contacted', 'qualified', 'won', 'lost'];
+  const statusTabs = [
+    { id: 'all', label: 'All' },
+    { id: 'new', label: 'New' },
+    { id: 'contacted', label: 'Contacted' },
+    { id: 'qualified', label: 'Qualified' },
+    { id: 'won', label: 'Closed' },
+    { id: 'lost', label: 'Lost' }
+  ];
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col pt-8 px-4 pb-24">
@@ -146,9 +147,9 @@ export default function CRMPage() {
         </div>
       </header>
 
-      {/* Search & Filter */}
-      <div className="flex gap-2 mb-6">
-        <div className="relative flex-1">
+      {/* Search */}
+      <div className="mb-4">
+        <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input 
             type="text" 
@@ -158,41 +159,24 @@ export default function CRMPage() {
             className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
           />
         </div>
-        <div className="relative">
-          <button 
-            onClick={() => setIsFilterOpen(!isFilterOpen)}
+      </div>
+
+      {/* Tabs */}
+      <div className="flex overflow-x-auto hide-scrollbar gap-2 mb-6 pb-2">
+        {statusTabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setStatusFilter(tab.id)}
             className={cn(
-              "bg-white border p-3 rounded-xl shadow-sm transition-colors flex items-center justify-center",
-              statusFilter !== 'all' ? "border-blue-500 text-blue-600 bg-blue-50" : "border-slate-200 text-slate-600 hover:text-slate-900"
+              "px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-colors",
+              statusFilter === tab.id 
+                ? "bg-blue-600 text-white shadow-md" 
+                : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
             )}
           >
-            <Filter size={18} />
+            {tab.label}
           </button>
-          
-          <AnimatePresence>
-            {isFilterOpen && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-slate-100 z-10 py-2 overflow-hidden"
-              >
-                {statusOptions.map(opt => (
-                  <button
-                    key={opt}
-                    onClick={() => { setStatusFilter(opt); setIsFilterOpen(false); }}
-                    className={cn(
-                      "w-full text-left px-4 py-2 text-sm capitalize hover:bg-slate-50 transition-colors",
-                      statusFilter === opt ? "text-blue-600 font-semibold bg-blue-50/50" : "text-slate-700"
-                    )}
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+        ))}
       </div>
 
       {/* Stats Summary */}
@@ -225,8 +209,8 @@ export default function CRMPage() {
                     {...contact} 
                     receiptsCount={contact.receipts?.length}
                     invoicesCount={contact.invoices?.length}
-                    onCall={(id) => console.log('Call', id)}
-                    onInvoice={(id) => console.log('Invoice', id)}
+                    onCall={(id) => toast.success('Call initiated for ' + id)}
+                    onInvoice={(id) => toast.success('Invoice initiated for ' + id)}
                     onTransfer={handleTransfer}
                     onClick={() => setSelectedContact(contact)}
                   />

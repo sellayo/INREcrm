@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   description: "Sell To Anyone, Anywhere, Automatically.",
 };
 
+import { Toaster } from 'react-hot-toast';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,6 +36,7 @@ export default function RootLayout({
         <AuthProvider>
           <ClientLayout>
             {children}
+            <Toaster position="top-center" />
           </ClientLayout>
         </AuthProvider>
       </body>

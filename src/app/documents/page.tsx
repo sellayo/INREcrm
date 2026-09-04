@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Search, FileText, CheckCircle, FileSignature } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
-import { Contact } from '../crm/page';
+import { Contact } from '@/types';
 import { cn } from '@/lib/utils';
 import DocumentGenerator from '@/components/ui/DocumentGenerator';
 

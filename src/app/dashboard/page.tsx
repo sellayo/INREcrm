@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { Plus, ChevronDown, CheckCircle2, User, Mail, Phone, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
 import { createClient } from '@/lib/supabase';
+import toast from 'react-hot-toast';
 
 export default function DashboardPage() {
   const { role, user } = useAuth();
@@ -22,7 +22,7 @@ export default function DashboardPage() {
   
   // Wizard State
   const [step, setStep] = useState(1);
-  const [leadData, setLeadData] = useState({ name: '', email: '', phone: '', niche: '', social_media: '' });
+  const [leadData, setLeadData] = useState({ name: '', email: '', phone: '', whatsapp_number: '', niche: '', service: '', notes: '', social_media: '' });
   const [isSaving, setIsSaving] = useState(false);
 
   const timeOptions = ['1 day', '7 days', '1 month', '6 months', '1 year', 'All time'];
@@ -84,7 +84,7 @@ export default function DashboardPage() {
     fetchStats();
   }, [user, timeFilter, supabase]);
 
-  const handleNextStep = () => setStep(prev => Math.min(prev + 1, 6));
+  const handleNextStep = () => setStep(prev => Math.min(prev + 1, 9));
   const handlePrevStep = () => setStep(prev => Math.max(prev - 1, 1));
   const handleSaveLead = async () => {
     if (!user) return;
@@ -95,7 +95,10 @@ export default function DashboardPage() {
         name: leadData.name,
         email: leadData.email || null,
         phone: leadData.phone || null,
+        whatsapp_number: leadData.whatsapp_number || null,
         niche: leadData.niche || null,
+        service: leadData.service || null,
+        notes: leadData.notes || null,
         social_media: leadData.social_media || null,
         type: 'lead',
         assigned_sales_id: user.id
@@ -105,11 +108,12 @@ export default function DashboardPage() {
       
       setIsWizardOpen(false);
       setStep(1);
-      setLeadData({ name: '', email: '', phone: '', niche: '', social_media: '' });
+      setLeadData({ name: '', email: '', phone: '', whatsapp_number: '', niche: '', service: '', notes: '', social_media: '' });
       setTotalLeads(prev => prev + 1);
-    } catch (err: any) {
-      console.error('Error saving lead:', err.message || err, err);
-      alert('Failed to save lead. Please try again.');
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error('Error saving lead:', error.message || err, err);
+      toast.error('Failed to save lead. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -210,7 +214,7 @@ export default function DashboardPage() {
               {/* Wizard Header */}
               <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                 <h3 className="font-semibold text-slate-900">
-                  {step === 6 ? 'Review & Confirm' : `Add Lead - Step ${step} of 5`}
+                  {step === 9 ? 'Review & Confirm' : `Add Lead - Step ${step} of 8`}
                 </h3>
                 <button 
                   onClick={() => setIsWizardOpen(false)}
@@ -308,6 +312,56 @@ export default function DashboardPage() {
                   </motion.div>
                 )}
                 {step === 6 && (
+                  <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="space-y-4">
+                    <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
+                      <Phone size={24} />
+                    </div>
+                    <h4 className="text-xl font-bold">What is their WhatsApp number?</h4>
+                    <input 
+                      autoFocus
+                      type="tel" 
+                      value={leadData.whatsapp_number}
+                      onChange={e => setLeadData({...leadData, whatsapp_number: e.target.value})}
+                      placeholder="e.g. +1 234 567 8900"
+                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      onKeyDown={e => e.key === 'Enter' && handleNextStep()}
+                    />
+                  </motion.div>
+                )}
+                {step === 7 && (
+                  <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="space-y-4">
+                    <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4">
+                      <Briefcase size={24} />
+                    </div>
+                    <h4 className="text-xl font-bold">What service are they interested in?</h4>
+                    <input 
+                      autoFocus
+                      type="text" 
+                      value={leadData.service}
+                      onChange={e => setLeadData({...leadData, service: e.target.value})}
+                      placeholder="e.g. SEO, Web Dev"
+                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      onKeyDown={e => e.key === 'Enter' && handleNextStep()}
+                    />
+                  </motion.div>
+                )}
+                {step === 8 && (
+                  <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="space-y-4">
+                    <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    </div>
+                    <h4 className="text-xl font-bold">Any notes?</h4>
+                    <textarea 
+                      autoFocus
+                      value={leadData.notes}
+                      onChange={e => setLeadData({...leadData, notes: e.target.value})}
+                      placeholder="Additional details..."
+                      rows={3}
+                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                    />
+                  </motion.div>
+                )}
+                {step === 9 && (
                   <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="space-y-6">
                     <div className="text-center mb-6">
                       <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -324,6 +378,9 @@ export default function DashboardPage() {
                         { label: 'Phone', value: leadData.phone, stepToEdit: 3 },
                         { label: 'Niche', value: leadData.niche, stepToEdit: 4 },
                         { label: 'Social', value: leadData.social_media, stepToEdit: 5 },
+                        { label: 'WhatsApp', value: leadData.whatsapp_number, stepToEdit: 6 },
+                        { label: 'Service', value: leadData.service, stepToEdit: 7 },
+                        { label: 'Notes', value: leadData.notes, stepToEdit: 8 },
                       ].map(item => (
                         <div key={item.label} className="flex items-center justify-between pb-3 border-b border-slate-200 last:border-0 last:pb-0">
                           <div>
@@ -345,7 +402,7 @@ export default function DashboardPage() {
 
               {/* Wizard Footer */}
               <div className="p-6 border-t border-slate-100 flex gap-3 bg-slate-50/50">
-                {step > 1 && step < 6 && (
+                {step > 1 && step < 9 && (
                   <button 
                     onClick={handlePrevStep}
                     className="px-6 py-3 rounded-xl font-semibold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
@@ -354,7 +411,7 @@ export default function DashboardPage() {
                   </button>
                 )}
                 
-                {step < 6 ? (
+                {step < 9 ? (
                   <button 
                     onClick={handleNextStep}
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold shadow-sm transition-colors"
