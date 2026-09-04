@@ -22,7 +22,7 @@ export default function DashboardPage() {
   
   // Wizard State
   const [step, setStep] = useState(1);
-  const [leadData, setLeadData] = useState({ name: '', email: '', phone: '', whatsapp_number: '', niche: '', service: '', notes: '', social_media: '' });
+  const [leadData, setLeadData] = useState({ name: '', business_name: '', email: '', phone: '', whatsapp_number: '', niche: '', service: '', notes: '', social_media: '' });
   const [isSaving, setIsSaving] = useState(false);
 
   const timeOptions = ['1 day', '7 days', '1 month', '6 months', '1 year', 'All time'];
@@ -93,6 +93,7 @@ export default function DashboardPage() {
     try {
       const { error } = await supabase.from('contacts').insert([{
         name: leadData.name,
+        business_name: leadData.business_name || null,
         email: leadData.email || null,
         phone: leadData.phone || null,
         whatsapp_number: leadData.whatsapp_number || null,
@@ -108,7 +109,7 @@ export default function DashboardPage() {
       
       setIsWizardOpen(false);
       setStep(1);
-      setLeadData({ name: '', email: '', phone: '', whatsapp_number: '', niche: '', service: '', notes: '', social_media: '' });
+      setLeadData({ name: '', business_name: '', email: '', phone: '', whatsapp_number: '', niche: '', service: '', notes: '', social_media: '' });
       setTotalLeads(prev => prev + 1);
     } catch (err: unknown) {
       const error = err as Error;
@@ -231,13 +232,22 @@ export default function DashboardPage() {
                     <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
                       <User size={24} />
                     </div>
-                    <h4 className="text-xl font-bold">What is the lead's name or page/business name?</h4>
+                    <h4 className="text-xl font-bold">What is the lead's name?</h4>
                     <input 
                       autoFocus
                       type="text" 
                       value={leadData.name}
                       onChange={e => setLeadData({...leadData, name: e.target.value})}
-                      placeholder="e.g. John Doe or Acme Corp"
+                      placeholder="First Lead Name"
+                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors mb-4"
+                      onKeyDown={e => e.key === 'Enter' && leadData.name && handleNextStep()}
+                    />
+                    <h4 className="text-xl font-bold">What is their page or business name?</h4>
+                    <input 
+                      type="text" 
+                      value={leadData.business_name}
+                      onChange={e => setLeadData({...leadData, business_name: e.target.value})}
+                      placeholder="Second Page/Business Name"
                       className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
                       onKeyDown={e => e.key === 'Enter' && leadData.name && handleNextStep()}
                     />

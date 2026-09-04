@@ -29,6 +29,7 @@ export interface DocumentRecord {
 export interface Contact {
   id: string;
   name: string;
+  business_name?: string;
   email?: string;
   phone?: string;
   whatsapp_number?: string;

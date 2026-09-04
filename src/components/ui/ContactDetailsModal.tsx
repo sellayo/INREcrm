@@ -170,6 +170,7 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
           {activeTab === 'details' ? (
             <div className="space-y-3">
               {[
+                { icon: Briefcase, label: 'Business Name', key: 'business_name', value: isEditing ? editData.business_name : contact.business_name },
                 { icon: Mail, label: 'Email', key: 'email', value: isEditing ? editData.email : contact.email },
                 { icon: Phone, label: 'Phone', key: 'phone', value: isEditing ? editData.phone : contact.phone },
                 { icon: Phone, label: 'WhatsApp', key: 'whatsapp_number', value: isEditing ? editData.whatsapp_number : contact.whatsapp_number },
