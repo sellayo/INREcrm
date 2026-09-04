@@ -231,13 +231,13 @@ export default function DashboardPage() {
                     <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
                       <User size={24} />
                     </div>
-                    <h4 className="text-xl font-bold">What is the lead's name?</h4>
+                    <h4 className="text-xl font-bold">What is the lead's name or page/business name?</h4>
                     <input 
                       autoFocus
                       type="text" 
                       value={leadData.name}
                       onChange={e => setLeadData({...leadData, name: e.target.value})}
-                      placeholder="e.g. John Doe"
+                      placeholder="e.g. John Doe or Acme Corp"
                       className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
                       onKeyDown={e => e.key === 'Enter' && leadData.name && handleNextStep()}
                     />
