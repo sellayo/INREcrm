@@ -45,7 +45,6 @@ export default function HistoryPage() {
         const { data, error } = await supabase
           .from('contacts')
           .select('*')
-          .eq('type', 'client')
           .order('created_at', { ascending: false });
 
         if (error) throw error;
