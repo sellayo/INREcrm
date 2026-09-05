@@ -135,10 +135,10 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
     try {
       await html2pdf().set(opt).from(printRef.current).save();
     } finally {
-      // Instantly restore stylesheets so the UI doesn't break
-      stashed.forEach(s => {
+      // Instantly restore stylesheets in reverse order so nextSibling references are valid
+      [...stashed].reverse().forEach(s => {
         if (s.parent) {
-          if (s.nextSibling) {
+          if (s.nextSibling && s.parent.contains(s.nextSibling)) {
             s.parent.insertBefore(s.el, s.nextSibling);
           } else {
             s.parent.appendChild(s.el);
