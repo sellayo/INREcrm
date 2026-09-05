@@ -43,7 +43,7 @@ BEGIN
   
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Apply triggers
 DROP TRIGGER IF EXISTS set_invoice_no ON invoices;
