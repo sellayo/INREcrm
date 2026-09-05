@@ -8,7 +8,7 @@ export default function TopHeader() {
   const { logout, role, user } = useAuth();
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white/90 backdrop-blur-lg border-b border-slate-200 z-[60] flex items-center justify-between px-4 md:px-6 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 h-16 bg-blue-50/90 backdrop-blur-lg border-b border-blue-100 z-[60] flex items-center justify-between px-4 md:px-6 shadow-sm">
       <div className="flex items-center gap-2">
         <Image 
           src="/sellayo-logo.png" 

@@ -28,7 +28,7 @@ export default function Navigation() {
   return (
     <>
       {/* Mobile Bottom Tab Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-t border-slate-200 pb-safe">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-blue-50/90 backdrop-blur-md border-t border-blue-100 pb-safe">
         <nav className="flex justify-around items-center h-16 px-4">
           {tabs.map((tab) => {
             const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`);

@@ -16,8 +16,12 @@ const geistMono = Geist_Mono({
 import ClientLayout from "@/components/layout/ClientLayout";
 
 export const metadata: Metadata = {
-  title: "INREcrm - Mobile First",
+  title: "Sellayo CRM",
   description: "Sell To Anyone, Anywhere, Automatically.",
+  icons: {
+    icon: "/sellayo-logo.png",
+    apple: "/sellayo-logo.png",
+  },
 };
 
 import { Toaster } from 'react-hot-toast';
