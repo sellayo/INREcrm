@@ -51,6 +51,7 @@ INREcrm (Sellayo CRM) is a modern, responsive web-based CRM built for a multi-ro
 - **[Refactored] UI/UX**: Replaced all native browser `alert()` popups and `console.log()` debug traces with a modern, smooth `react-hot-toast` notification system.
 - **[Fixed] PDF Layout & Engine Crash**: Reconfigured PDF generation to allow for variable height and removed conflicting stylesheets right before print.
 - **[Implemented] Pre-filling Engine**: Document builder remembers previous document details.
+- **[Feature] Automated Document Numbering**: Added an admin settings panel to manage starting sequences for invoices and receipts, powered by a new `app_settings` table and a Postgres trigger for atomic assignment.
 
 ## Next Steps / Pending
 - Proposal generator integration.

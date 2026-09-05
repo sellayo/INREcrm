@@ -41,16 +41,16 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
   const printRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
 
-  const fetchNextNumber = async (table: string, column: string, setter: (val: number) => void) => {
+  const fetchNextNumber = async (table: string, setter: (val: number) => void) => {
+    const settingsCol = table === 'invoices' ? 'next_invoice_number' : 'next_receipt_number';
     const { data } = await supabase
-      .from(table)
-      .select(column)
-      .order(column, { ascending: false })
-      .limit(1);
+      .from('app_settings')
+      .select(settingsCol)
+      .eq('id', 1)
+      .single();
     
-    if (data && data.length > 0) {
-      const record = data[0] as unknown as Record<string, number>;
-      setter((record[column] || 100) + 1);
+    if (data) {
+      setter((data as Record<string, number>)[settingsCol]);
     } else {
       setter(101);
     }
@@ -58,9 +58,9 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
 
   useEffect(() => {
     if (docType === 'receipt') {
-      fetchNextNumber('receipts', 'receipt_no', setReceiptNo);
+      fetchNextNumber('receipts', setReceiptNo);
     } else if (docType === 'invoice') {
-      fetchNextNumber('invoices', 'invoice_no', setInvoiceNo);
+      fetchNextNumber('invoices', setInvoiceNo);
     }
     
     // Pre-fill from latest document
