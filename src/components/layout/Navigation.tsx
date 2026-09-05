@@ -65,17 +65,10 @@ export default function Navigation() {
       {/* Desktop Sidebar */}
       <div 
         className={cn(
-          "hidden md:flex flex-col fixed top-0 left-0 bottom-0 bg-blue-600 border-r border-blue-700 py-8 z-50 transition-all duration-300 shadow-xl",
+          "hidden md:flex flex-col fixed top-16 left-0 bottom-0 bg-blue-600 border-r border-blue-700 py-8 z-50 transition-all duration-300 shadow-xl",
           isSidebarCollapsed ? "w-20 px-2" : "w-64 px-4"
         )}
       >
-        <div className={cn("flex items-center mb-10", isSidebarCollapsed ? "justify-center" : "gap-3 px-2")}>
-          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-blue-600 font-bold shrink-0 shadow-sm">
-            I
-          </div>
-          {!isSidebarCollapsed && <span className="text-xl font-bold tracking-tight text-white">INREcrm</span>}
-        </div>
-
         <nav className="flex-1 space-y-2">
           {tabs.map((tab) => {
             const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`);
@@ -119,22 +112,6 @@ export default function Navigation() {
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cn("transition-transform duration-300", isSidebarCollapsed ? "rotate-180" : "")}><path d="m15 18-6-6 6-6"/></svg>
             {!isSidebarCollapsed && <span className="ml-3 text-sm font-medium">Collapse</span>}
           </button>
-
-          <div className={cn("py-3 flex items-center justify-between", isSidebarCollapsed ? "flex-col gap-4" : "px-3")}>
-            {!isSidebarCollapsed && (
-              <div>
-                <p className="text-sm font-bold text-white capitalize">{role}</p>
-                <p className="text-xs text-blue-200">Logged in</p>
-              </div>
-            )}
-            <button 
-              onClick={logout}
-              className="p-2 text-blue-200 hover:text-red-300 transition-colors rounded-lg hover:bg-blue-700"
-              title="Logout"
-            >
-              <LogOut size={18} />
-            </button>
-          </div>
         </div>
       </div>
     </>

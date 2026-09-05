@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
-import { Plus, ChevronDown, CheckCircle2, User, Mail, Phone, Briefcase } from 'lucide-react';
+import { Plus, ChevronDown, CheckCircle2, User, Mail, Phone, Briefcase, Users, TrendingUp, TrendingDown, FileText, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase';
 import toast from 'react-hot-toast';
@@ -168,20 +168,35 @@ export default function DashboardPage() {
       {/* Overview Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
         {[
-          { label: 'Total Leads', value: totalLeads.toString(), trend: '' },
-          { label: 'Closed Won', value: closedWon.toString(), trend: '' },
-          { label: 'Lost', value: lost.toString(), trend: '' },
-          { label: 'Invoices Sent', value: invoicesSent.toString(), trend: '' },
-          { label: 'Receipts Sent', value: receiptsSent.toString(), trend: '' },
-        ].map((stat, i) => (
-          <div key={i} className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col [&:nth-child(5)]:col-span-2 md:[&:nth-child(5)]:col-span-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">{stat.label}</span>
-            <div className="flex items-end justify-between mt-auto">
-              <span className="text-2xl font-bold text-slate-900">{stat.value}</span>
-              {stat.trend && <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-md">{stat.trend}</span>}
+          { label: 'Total Leads', value: totalLeads.toString(), icon: Users, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100', glow: 'shadow-blue-500/10' },
+          { label: 'Closed Won', value: closedWon.toString(), icon: TrendingUp, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100', glow: 'shadow-emerald-500/10' },
+          { label: 'Lost', value: lost.toString(), icon: TrendingDown, color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-100', glow: 'shadow-rose-500/10' },
+          { label: 'Invoices Sent', value: invoicesSent.toString(), icon: FileText, color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-100', glow: 'shadow-indigo-500/10' },
+          { label: 'Receipts Sent', value: receiptsSent.toString(), icon: CheckCircle, color: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-100', glow: 'shadow-teal-500/10' },
+        ].map((stat, i) => {
+          const Icon = stat.icon;
+          return (
+            <div 
+              key={i} 
+              className={cn(
+                "group relative p-5 rounded-3xl border flex flex-col bg-white hover:-translate-y-1 transition-all duration-300 shadow-md",
+                stat.border, stat.glow,
+                "[&:nth-child(5)]:col-span-2 md:[&:nth-child(5)]:col-span-1"
+              )}
+            >
+              <div className={cn("w-10 h-10 rounded-2xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110", stat.bg, stat.color)}>
+                <Icon size={20} strokeWidth={2.5} />
+              </div>
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">{stat.label}</span>
+              <div className="flex items-end justify-between mt-auto">
+                <span className="text-2xl font-extrabold text-slate-900 tracking-tight">{stat.value}</span>
+              </div>
+              
+              {/* Subtle background glow effect on hover */}
+              <div className={cn("absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none blur-xl -z-10", stat.bg)} />
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Add Lead Button */}
