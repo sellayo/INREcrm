@@ -36,7 +36,7 @@ INREcrm (Sellayo CRM) is a modern, responsive web-based CRM built for a multi-ro
 
 ## Database Schema (Key Tables)
 1. `users` (id, name, role, status) - Managed via Auth triggers.
-2. `contacts` (id, name, type, status, assigned_sales_id, whatsapp_number, service, notes)
+2. `contacts` (id, name, business_name, type, status, assigned_sales_id, whatsapp_number, service, notes)
 3. `invoices` (id, invoice_no, contact_id, amount, line_items, ...)
 4. `receipts` (id, receipt_no, contact_id, amount, line_items, ...)
 5. `proposals` (id, contact_id, ...)
@@ -44,6 +44,7 @@ INREcrm (Sellayo CRM) is a modern, responsive web-based CRM built for a multi-ro
 **Note:** All recent major Supabase database functions, triggers, and RLS policies (e.g., cascade deleting, bypassing email verification rate limits, and allowing sales to see closed clients) are consolidated in `supabase/schema_updates.sql`.
 
 ## Recent Fixes & Milestones
+- **[Feature] Dual-Field Lead Creation**: Updated lead creation wizard to explicitly capture both a "Lead Name" and a "Page/Business Name" (using the new `business_name` DB column).
 - **[Fixed] Database Constraint Bug**: Implemented `delete_contact` Postgres RPC with `SECURITY DEFINER` to safely cascade-delete contacts and related documents while enforcing role permissions.
 - **[Fixed] Auth Email Rate Limits**: Replaced default email confirmation with a custom Postgres trigger (`handle_admin_approval`) that confirms accounts upon Admin approval in the dashboard.
 - **[Refactored] Type Safety**: Centralized all core data models into `src/types/index.ts`, eliminated dangerous `any` usage, and passed strict build validation.
