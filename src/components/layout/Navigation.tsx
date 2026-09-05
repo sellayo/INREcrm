@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Settings, LogOut, FileText, ShieldAlert } from 'lucide-react';
+import { Home, Users, Settings, LogOut, FileText, ShieldAlert, History } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
@@ -18,6 +18,10 @@ export default function Navigation() {
     { name: 'CRM', href: '/crm', icon: Users },
     { name: 'Documents', href: '/documents', icon: FileText },
   ];
+
+  if (role === 'internal' || role === 'admin') {
+    tabs.push({ name: 'History', href: '/history', icon: History });
+  }
 
   if (role === 'admin') {
     tabs.push({ name: 'Team', href: '/team', icon: ShieldAlert });
