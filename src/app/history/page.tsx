@@ -232,7 +232,7 @@ export default function HistoryPage() {
                         <CheckCircle size={18} />
                         <span className="text-xs font-bold uppercase tracking-wider">Total Received</span>
                       </div>
-                      <span className="text-3xl font-extrabold text-emerald-700">${totalReceiptAmount.toFixed(2)}</span>
+                      <span className="text-3xl font-extrabold text-emerald-700">₹{totalReceiptAmount.toFixed(2)}</span>
                       <span className="text-xs text-emerald-600/70 mt-1">{receipts.length} Receipts Issued</span>
                     </div>
                     
@@ -241,7 +241,7 @@ export default function HistoryPage() {
                         <FileText size={18} />
                         <span className="text-xs font-bold uppercase tracking-wider">Total Invoiced</span>
                       </div>
-                      <span className="text-3xl font-extrabold text-indigo-700">${totalInvoiceAmount.toFixed(2)}</span>
+                      <span className="text-3xl font-extrabold text-indigo-700">₹{totalInvoiceAmount.toFixed(2)}</span>
                       <span className="text-xs text-indigo-600/70 mt-1">{invoices.length} Invoices Sent</span>
                     </div>
                   </div>
@@ -299,11 +299,20 @@ export default function HistoryPage() {
                                 </span>
                               </div>
                               <div className="text-lg font-extrabold text-slate-900">
-                                ${event.amount}
+                                ₹{event.amount}
                               </div>
                               <div className="text-xs text-slate-500 mt-1 font-mono">
                                 #{event.type === 'receipt' ? event.receipt_no : event.invoice_no}
                               </div>
+                              {event.line_items && Array.isArray(event.line_items) && event.line_items.length > 0 && (
+                                <div className="mt-3 flex flex-wrap gap-1">
+                                  {event.line_items.map((item: any, i: number) => item.service ? (
+                                    <span key={i} className="bg-slate-50 border border-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px] font-medium">
+                                      {item.service}
+                                    </span>
+                                  ) : null)}
+                                </div>
+                              )}
                             </div>
 
                           </div>
