@@ -68,24 +68,24 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
         initial={{ opacity: 0, scale: 0.95, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 10 }}
-        className="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-white dark:bg-slate-900 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
       >
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 shrink-0">
-          <h3 className="font-bold text-lg text-slate-900">
+        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 shrink-0">
+          <h3 className="font-bold text-lg text-slate-900 dark:text-white">
             {isEditing ? 'Edit Contact' : 'Contact Details'}
           </h3>
           <div className="flex items-center gap-2">
             {!isEditing && (
               <button 
                 onClick={() => setIsEditing(true)}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
               >
                 <Edit2 size={16} />
               </button>
             )}
             <button 
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-slate-300 hover:text-slate-700 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-300 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
             >
               <X size={18} />
             </button>
@@ -94,7 +94,7 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
 
         <div className="p-6 overflow-y-auto flex-1">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+            <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
               <User size={32} />
             </div>
             <div className="flex-1 relative">
@@ -103,14 +103,14 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
                   type="text" 
                   value={editData.name}
                   onChange={e => setEditData({...editData, name: e.target.value})}
-                  className="w-full text-lg font-bold text-slate-900 bg-white border border-slate-300 rounded-lg px-2 py-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full text-lg font-bold text-slate-900 dark:text-white bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-2 py-1 focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               ) : (
-                <h2 className="text-xl font-bold text-slate-900 truncate pr-2">{contact.name}</h2>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white truncate pr-2">{contact.name}</h2>
               )}
               
               <div className="mt-2 flex gap-2">
-                <span className={cn("text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider", contact.type === 'client' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-600')}>
+                <span className={cn("text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider", contact.type === 'client' ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400')}>
                   {contact.type}
                 </span>
                 
@@ -126,14 +126,14 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
                   </button>
                   
                   {showStatusDropdown && (
-                    <div className="absolute top-full left-0 mt-1 w-32 bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden z-10">
+                    <div className="absolute top-full left-0 mt-1 w-32 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-10">
                       {statusOptions.map(opt => (
                         <button
                           key={opt}
                           onClick={() => handleStatusChange(opt)}
                           className={cn(
-                            "w-full text-left px-3 py-2 text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-colors",
-                            contact.status === opt ? "text-blue-600 bg-blue-50" : "text-slate-600"
+                            "w-full text-left px-3 py-2 text-xs font-bold uppercase tracking-wider hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors",
+                            contact.status === opt ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30" : "text-slate-600 dark:text-slate-300"
                           )}
                         >
                           {opt}
@@ -146,7 +146,7 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
             </div>
           </div>
 
-          <div className="flex border-b border-slate-200 mb-4 mx-2">
+          <div className="flex border-b border-slate-200 dark:border-slate-800 mb-4 mx-2">
             <button
               onClick={() => setActiveTab('details')}
               className={cn(
@@ -179,31 +179,31 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
                 { icon: Link, label: 'Social', key: 'social_media', value: isEditing ? editData.social_media : contact.social_media },
                 { icon: FileText, label: 'Notes', key: 'notes', value: isEditing ? editData.notes : contact.notes }
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-800">
                   <div className="flex items-center gap-3 overflow-hidden flex-1">
-                    <div className="text-slate-400 shrink-0">
+                    <div className="text-slate-400 dark:text-slate-500 shrink-0">
                       <item.icon size={18} />
                     </div>
                     <div className="overflow-hidden flex-1">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase">{item.label}</p>
+                      <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">{item.label}</p>
                       {isEditing ? (
                         item.key === 'notes' ? (
                           <textarea 
                             value={item.value || ''}
                             onChange={e => setEditData({...editData, [item.key]: e.target.value})}
-                            className="w-full text-sm font-medium text-slate-900 bg-white border border-slate-300 rounded px-2 py-1 mt-0.5 focus:ring-1 focus:ring-blue-500 outline-none resize-y min-h-[60px]"
+                            className="w-full text-sm font-medium text-slate-900 dark:text-white bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 mt-0.5 focus:ring-1 focus:ring-blue-500 outline-none resize-y min-h-[60px]"
                           />
                         ) : (
                           <input 
                             type={item.key === 'email' ? 'email' : item.key === 'phone' || item.key === 'whatsapp_number' ? 'tel' : 'text'}
                             value={item.value || ''}
                             onChange={e => setEditData({...editData, [item.key]: e.target.value})}
-                            className="w-full text-sm font-medium text-slate-900 bg-white border border-slate-300 rounded px-2 py-1 mt-0.5 focus:ring-1 focus:ring-blue-500 outline-none"
+                            className="w-full text-sm font-medium text-slate-900 dark:text-white bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 mt-0.5 focus:ring-1 focus:ring-blue-500 outline-none"
                           />
                         )
                       ) : (
-                        <p className="text-sm font-medium text-slate-900 truncate">
-                          {item.value || <span className="text-slate-400 italic font-normal">Not provided</span>}
+                        <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                          {item.value || <span className="text-slate-400 dark:text-slate-500 italic font-normal">Not provided</span>}
                         </p>
                       )}
                     </div>
@@ -211,7 +211,7 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
                   {!isEditing && item.value && (
                     <button 
                       onClick={() => handleCopy(item.value as string)}
-                      className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors shrink-0 ml-2"
+                      className="p-2 text-slate-400 dark:text-slate-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shrink-0 ml-2"
                       title="Copy to clipboard"
                     >
                       <Copy size={16} />
@@ -225,37 +225,37 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
               {contact.receipts && contact.receipts.length > 0 ? (
                 contact.receipts.flatMap(receipt => 
                   (receipt.line_items || []).map((item: { id?: string; service?: string; price?: string; description?: string }) => (
-                    <div key={`${receipt.id}-${item.id || Math.random()}`} className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                    <div key={`${receipt.id}-${item.id || Math.random()}`} className="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-800">
                       <div className="flex justify-between items-start mb-1">
-                        <h4 className="font-bold text-sm text-slate-900">{item.service || 'Unnamed Service'}</h4>
-                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-full shrink-0">
+                        <h4 className="font-bold text-sm text-slate-900 dark:text-white">{item.service || 'Unnamed Service'}</h4>
+                        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded-full shrink-0">
                           ₹{item.price || '0'}
                         </span>
                       </div>
                       {item.description && (
-                        <p className="text-xs text-slate-600 mt-1 whitespace-pre-wrap">{item.description}</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 whitespace-pre-wrap">{item.description}</p>
                       )}
-                      <div className="mt-2 text-[10px] text-slate-400 font-medium">
+                      <div className="mt-2 text-[10px] text-slate-400 dark:text-slate-500 font-medium">
                         Purchased on {new Date(receipt.created_at).toLocaleDateString()}
                       </div>
                     </div>
                   ))
                 )
               ) : (
-                <div className="text-center py-8 border border-dashed border-slate-200 rounded-xl">
-                  <p className="text-sm text-slate-500 font-medium">No services purchased yet.</p>
+                <div className="text-center py-8 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No services purchased yet.</p>
                 </div>
               )}
             </div>
           )}
         </div>
         
-        <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex gap-2 shrink-0">
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 flex gap-2 shrink-0">
           {isEditing ? (
             <>
               <button 
                 onClick={() => { setIsEditing(false); setEditData(contact); }}
-                className="flex-1 px-4 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-semibold hover:bg-slate-50 transition-colors"
+                className="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-xl font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
               >
                 Cancel
               </button>
@@ -272,7 +272,7 @@ export default function ContactDetailsModal({ contact, isOpen, onClose, onUpdate
               <button 
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="flex-1 px-4 py-3 bg-red-50 text-red-600 rounded-xl font-semibold hover:bg-red-100 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl font-semibold hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 title="Delete Contact"
               >
                 <Trash2 size={18} /> Delete Contact

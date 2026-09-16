@@ -17,7 +17,7 @@ import ClientLayout from "@/components/layout/ClientLayout";
 
 export const metadata: Metadata = {
   title: "Sellayo CRM",
-  description: "Sell To Anyone, Anywhere, Automatically.",
+  description: "Sell to anyone. In any language. Automatically.",
   icons: {
     icon: "/sellayo-logo.png",
     apple: "/sellayo-logo.png",
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
 };
 
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export default function RootLayout({
   children,
@@ -34,15 +35,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-slate-50`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-slate-50 dark:bg-slate-950`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 pb-20 md:pb-0">
-        <AuthProvider>
-          <ClientLayout>
-            {children}
-            <Toaster position="top-center" />
-          </ClientLayout>
-        </AuthProvider>
+      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20 md:pb-0">
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <AuthProvider>
+            <ClientLayout>
+              {children}
+              <Toaster position="top-center" />
+            </ClientLayout>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

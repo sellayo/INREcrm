@@ -138,25 +138,25 @@ export default function CRMPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col pt-8 px-4 pb-24">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col pt-8 px-4 pb-24">
       {/* Header & Role Toggle */}
       <header className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">CRM</h1>
-          <p className="text-sm text-slate-500">Manage your network</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">CRM</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Manage your network</p>
         </div>
       </header>
 
       {/* Search */}
       <div className="mb-4">
         <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" size={18} />
           <input 
             type="text" 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search contacts..." 
-            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
+            className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm dark:text-white"
           />
         </div>
       </div>
@@ -171,7 +171,7 @@ export default function CRMPage() {
               "px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-colors",
               statusFilter === tab.id 
                 ? "bg-blue-600 text-white shadow-md" 
-                : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800"
             )}
           >
             {tab.label}
@@ -218,12 +218,12 @@ export default function CRMPage() {
               ))}
             </AnimatePresence>
           ) : (
-            <div className="text-center py-12 px-4 bg-white rounded-2xl border border-slate-100 border-dashed">
-              <div className="w-12 h-12 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3">
+            <div className="text-center py-12 px-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 border-dashed">
+              <div className="w-12 h-12 bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Search size={24} />
               </div>
-              <p className="text-sm font-semibold text-slate-900">No contacts found</p>
-              <p className="text-xs text-slate-500 mt-1">Try adjusting your filters or search query.</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">No contacts found</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Try adjusting your filters or search query.</p>
             </div>
           )}
           
@@ -231,7 +231,7 @@ export default function CRMPage() {
             <div className="flex justify-center pt-4 pb-8">
               <button 
                 onClick={() => setPage(p => p + 1)}
-                className="px-6 py-2 bg-white border border-slate-200 text-slate-600 font-semibold text-sm rounded-xl hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-sm"
+                className="px-6 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-sm rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
               >
                 Load More
               </button>

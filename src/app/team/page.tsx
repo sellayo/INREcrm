@@ -150,19 +150,19 @@ export default function TeamManagementPage() {
   const salesReps = activeUsers.filter(u => u.role === 'sales');
   
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col pt-8 px-4 pb-24">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col pt-8 px-4 pb-24">
       <header className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Team Management</h1>
-        <p className="text-sm text-slate-500">Approve users and distribute leads</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Team Management</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Approve users and distribute leads</p>
       </header>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 mb-6">
+      <div className="flex border-b border-slate-200 dark:border-slate-800 mb-6">
         <button
           onClick={() => setActiveTab('team')}
           className={cn(
             "pb-3 px-6 text-sm font-semibold transition-colors border-b-2 flex-1 md:flex-none",
-            activeTab === 'team' ? "border-blue-600 text-blue-600" : "border-transparent text-slate-500 hover:text-slate-700"
+            activeTab === 'team' ? "border-blue-600 text-blue-600 dark:text-blue-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
           )}
         >
           Team Members
@@ -171,7 +171,7 @@ export default function TeamManagementPage() {
           onClick={() => setActiveTab('leads')}
           className={cn(
             "pb-3 px-6 text-sm font-semibold transition-colors border-b-2 flex-1 md:flex-none",
-            activeTab === 'leads' ? "border-blue-600 text-blue-600" : "border-transparent text-slate-500 hover:text-slate-700"
+            activeTab === 'leads' ? "border-blue-600 text-blue-600 dark:text-blue-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
           )}
         >
           Lead Distribution
@@ -189,7 +189,7 @@ export default function TeamManagementPage() {
               {/* Pending Approvals */}
               {pendingUsers.length > 0 && (
                 <section>
-                  <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
                     Pending Approvals ({pendingUsers.length})
                   </h2>
@@ -201,21 +201,21 @@ export default function TeamManagementPage() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, x: -20 }}
-                          className="bg-white p-4 rounded-2xl shadow-sm border border-amber-100 flex items-center justify-between gap-4"
+                          className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-amber-100 dark:border-amber-900/50 flex items-center justify-between gap-4"
                         >
                           <div className="flex items-center gap-3 overflow-hidden">
-                            <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center shrink-0">
+                            <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center shrink-0">
                               <UserIcon size={20} />
                             </div>
                             <div className="overflow-hidden">
-                              <h3 className="font-bold text-slate-900 truncate">{user.name}</h3>
-                              <p className="text-xs text-slate-500">Requested: {new Date(user.created_at).toLocaleDateString()}</p>
+                              <h3 className="font-bold text-slate-900 dark:text-white truncate">{user.name}</h3>
+                              <p className="text-xs text-slate-500 dark:text-slate-400">Requested: {new Date(user.created_at).toLocaleDateString()}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 shrink-0">
                             <button
                               onClick={() => handleUpdateStatus(user.id, 'rejected')}
-                              className="w-10 h-10 rounded-xl bg-slate-50 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors flex items-center justify-center"
+                              className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-900/50 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center justify-center"
                               title="Reject"
                             >
                               <X size={18} />
@@ -237,25 +237,25 @@ export default function TeamManagementPage() {
 
               {/* Active Team */}
               <section>
-                <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">
+                <h2 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">
                   Active Team ({activeUsers.length})
                 </h2>
                 <div className="grid gap-3">
                   {activeUsers.length === 0 ? (
-                    <p className="text-sm text-slate-500 italic">No active team members.</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 italic">No active team members.</p>
                   ) : (
                     activeUsers.map(user => (
-                      <div key={user.id} className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between gap-4">
+                      <div key={user.id} className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4">
                         <div className="flex items-center gap-3 overflow-hidden">
                           <div className={cn(
                             "w-10 h-10 rounded-full flex items-center justify-center shrink-0",
-                            user.role === 'admin' ? "bg-purple-100 text-purple-600" : "bg-blue-50 text-blue-600"
+                            user.role === 'admin' ? "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400" : "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
                           )}>
                             {user.role === 'admin' ? <Shield size={20} /> : <UserIcon size={20} />}
                           </div>
                           <div className="overflow-hidden">
-                            <h3 className="font-bold text-slate-900 truncate">{user.name}</h3>
-                            <p className="text-xs text-slate-500">Joined: {new Date(user.created_at).toLocaleDateString()}</p>
+                            <h3 className="font-bold text-slate-900 dark:text-white truncate">{user.name}</h3>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">Joined: {new Date(user.created_at).toLocaleDateString()}</p>
                           </div>
                         </div>
                         
@@ -263,7 +263,7 @@ export default function TeamManagementPage() {
                           <select
                             value={user.role || 'sales'}
                             onChange={(e) => handleUpdateRole(user.id, e.target.value as UserRole)}
-                            className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            className="text-xs font-semibold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 dark:text-white rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
                           >
                             <option value="sales">Sales</option>
                             <option value="internal">Internal</option>
@@ -272,7 +272,7 @@ export default function TeamManagementPage() {
                           
                           <button
                             onClick={() => handleDeleteUser(user.id)}
-                            className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/50 rounded-lg transition-colors"
                             title="Remove User"
                           >
                             <Trash2 size={16} />
@@ -287,13 +287,13 @@ export default function TeamManagementPage() {
               {/* Rejected Users */}
               {rejectedUsers.length > 0 && (
                 <section className="opacity-60">
-                  <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">
+                  <h2 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">
                     Rejected ({rejectedUsers.length})
                   </h2>
                   <div className="grid gap-2">
                     {rejectedUsers.map(user => (
-                      <div key={user.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                        <div className="text-sm font-medium text-slate-600">{user.name}</div>
+                      <div key={user.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                        <div className="text-sm font-medium text-slate-600 dark:text-slate-300">{user.name}</div>
                         <button 
                           onClick={() => handleUpdateStatus(user.id, 'approved')}
                           className="text-xs font-bold text-blue-600 hover:underline"
@@ -313,20 +313,20 @@ export default function TeamManagementPage() {
       {activeTab === 'leads' && (
         <div className="space-y-6">
           {/* Bulk Action Bar */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-slate-700 bg-slate-100 px-3 py-1 rounded-full">
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
                 {selectedLeads.length} Selected
               </span>
               {selectedLeads.length > 0 && (
-                <button onClick={() => setSelectedLeads([])} className="text-xs text-slate-500 hover:text-slate-700">Clear</button>
+                <button onClick={() => setSelectedLeads([])} className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300">Clear</button>
               )}
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <select 
                 value={selectedRep}
                 onChange={e => setSelectedRep(e.target.value)}
-                className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 flex-1 md:w-48"
+                className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 flex-1 md:w-48"
               >
                 <option value="">Select Sales Rep...</option>
                 {salesReps.map(rep => (
@@ -346,22 +346,22 @@ export default function TeamManagementPage() {
           {/* Filters */}
           <div className="flex flex-col md:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" size={18} />
               <input 
                 type="text" 
                 placeholder="Search leads by name or niche..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm"
+                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 dark:text-white rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm"
               />
             </div>
             <div className="flex gap-2">
               <div className="relative">
-                <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" size={16} />
                 <select 
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="pl-9 pr-8 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm appearance-none font-medium text-slate-700"
+                  className="pl-9 pr-8 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm appearance-none font-medium text-slate-700 dark:text-slate-300"
                 >
                   <option value="all">All Status</option>
                   <option value="new">New</option>
@@ -373,17 +373,17 @@ export default function TeamManagementPage() {
           </div>
 
           {/* Data Table */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm whitespace-nowrap">
-                <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+                <thead className="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-800">
                   <tr>
                     <th className="p-4 w-12">
                       <input 
                         type="checkbox" 
                         checked={leads.length > 0 && selectedLeads.length === leads.length}
                         onChange={handleToggleSelectAll}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500 cursor-pointer"
                       />
                     </th>
                     <th className="p-4">Name</th>
@@ -392,55 +392,55 @@ export default function TeamManagementPage() {
                     <th className="p-4">Assigned To</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {loadingLeads ? (
                     <tr>
-                      <td colSpan={5} className="p-8 text-center text-slate-400">Loading leads...</td>
+                      <td colSpan={5} className="p-8 text-center text-slate-400 dark:text-slate-500">Loading leads...</td>
                     </tr>
                   ) : leads.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-8 text-center text-slate-400">No leads found.</td>
+                      <td colSpan={5} className="p-8 text-center text-slate-400 dark:text-slate-500">No leads found.</td>
                     </tr>
                   ) : (
                     leads.map(lead => (
                       <tr 
                         key={lead.id} 
                         onClick={() => handleToggleSelect(lead.id)}
-                        className={cn("hover:bg-slate-50 transition-colors cursor-pointer", selectedLeads.includes(lead.id) && "bg-blue-50/50")}
+                        className={cn("hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer", selectedLeads.includes(lead.id) && "bg-blue-50/50 dark:bg-blue-900/20")}
                       >
                         <td className="p-4">
                           <input 
                             type="checkbox" 
                             checked={selectedLeads.includes(lead.id)}
                             onChange={() => {}} 
-                            className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                            className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500 cursor-pointer"
                           />
                         </td>
-                        <td className="p-4 font-semibold text-slate-900">{lead.name}</td>
-                        <td className="p-4 text-slate-500">{lead.niche || '-'}</td>
+                        <td className="p-4 font-semibold text-slate-900 dark:text-white">{lead.name}</td>
+                        <td className="p-4 text-slate-500 dark:text-slate-400">{lead.niche || '-'}</td>
                         <td className="p-4">
                           <span className={cn(
                             "text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider",
-                            lead.status === 'new' && 'bg-blue-100 text-blue-700',
-                            lead.status === 'contacted' && 'bg-purple-100 text-purple-700',
-                            lead.status === 'qualified' && 'bg-amber-100 text-amber-700',
-                            lead.status === 'won' && 'bg-green-100 text-green-700',
-                            lead.status === 'lost' && 'bg-red-100 text-red-700'
+                            lead.status === 'new' && 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
+                            lead.status === 'contacted' && 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400',
+                            lead.status === 'qualified' && 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400',
+                            lead.status === 'won' && 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
+                            lead.status === 'lost' && 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
                           )}>
                             {lead.status}
                           </span>
                         </td>
                         <td className="p-4">
                           {lead.assigned_sales_id ? (
-                            <span className="flex items-center gap-2 text-slate-600 font-medium">
-                              <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center">
+                            <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium">
+                              <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
                                 <UserIcon size={12} />
                               </div>
                               {users.find(u => u.id === lead.assigned_sales_id)?.name || 'Unknown Rep'}
                             </span>
                           ) : (
-                            <span className="flex items-center gap-2 text-slate-400 italic">
-                               <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center">
+                            <span className="flex items-center gap-2 text-slate-400 dark:text-slate-500 italic">
+                               <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
                                 <UserIcon size={12} />
                               </div>
                               Unassigned

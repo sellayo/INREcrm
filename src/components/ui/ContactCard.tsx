@@ -46,7 +46,7 @@ export default function ContactCard({ id, name, niche, type, receiptsCount = 0, 
   };
 
   return (
-    <div className="relative w-full rounded-2xl bg-slate-100 overflow-hidden mb-3 shadow-sm border border-slate-100">
+    <div className="relative w-full rounded-2xl bg-slate-100 dark:bg-slate-900 overflow-hidden mb-3 shadow-sm border border-slate-100 dark:border-slate-800">
       
       {/* Background Actions */}
       <div className="absolute inset-y-0 left-0 flex items-center px-6">
@@ -59,7 +59,7 @@ export default function ContactCard({ id, name, niche, type, receiptsCount = 0, 
             handleReset();
           }}
         >
-          <div className="bg-green-100 p-2 rounded-full">
+          <div className="bg-green-100 dark:bg-green-900/40 p-2 rounded-full">
             <Phone size={20} fill="currentColor" />
           </div>
           <span className="text-[10px] font-bold tracking-wide uppercase">Call</span>
@@ -77,7 +77,7 @@ export default function ContactCard({ id, name, niche, type, receiptsCount = 0, 
               handleReset();
             }}
           >
-            <div className="bg-blue-100 p-2 rounded-full">
+            <div className="bg-blue-100 dark:bg-blue-900/40 p-2 rounded-full">
               <FileText size={20} fill="currentColor" />
             </div>
             <span className="text-[10px] font-bold tracking-wide uppercase">Transfer</span>
@@ -98,31 +98,31 @@ export default function ContactCard({ id, name, niche, type, receiptsCount = 0, 
             onClick?.();
           }
         }}
-        className="relative bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer active:cursor-grabbing"
+        className="relative bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-between cursor-pointer active:cursor-grabbing"
       >
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+          <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-500">
             <User size={24} />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-slate-900">{name}</h3>
-            <p className="text-sm text-slate-500">{niche}</p>
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white">{name}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{niche}</p>
           </div>
         </div>
         
         <div className="flex flex-col items-end gap-1">
           <span className={`text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider ${
-            type === 'client' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
+            type === 'client' ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400' : 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400'
           }`}>
             {type}
           </span>
           {receiptsCount > 0 && (
-            <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-green-100 text-green-700 mt-1">
+            <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400 mt-1">
               Receipt Sent
             </span>
           )}
           {invoicesCount > 0 && receiptsCount === 0 && (
-            <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-purple-100 text-purple-700 mt-1">
+            <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-400 mt-1">
               Invoice Sent
             </span>
           )}

@@ -8,7 +8,7 @@ export default function TopHeader() {
   const { logout, role, user } = useAuth();
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-blue-50/90 backdrop-blur-lg border-b border-blue-100 z-[60] flex items-center justify-between px-4 md:px-6 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 h-16 bg-blue-50/90 dark:bg-slate-950/90 backdrop-blur-lg border-b border-blue-100 dark:border-slate-800 z-[60] flex items-center justify-between px-4 md:px-6 shadow-sm">
       <div className="flex items-center gap-2">
         <Image 
           src="/sellayo-logo.png" 
@@ -21,15 +21,15 @@ export default function TopHeader() {
 
       <div className="flex items-center gap-4">
         <div className="hidden md:flex flex-col items-end">
-          <span className="text-sm font-bold text-slate-900 capitalize">{role}</span>
-          <span className="text-xs text-slate-500">{user?.email || 'Logged in'}</span>
+          <span className="text-sm font-bold text-slate-900 dark:text-white capitalize">{role}</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400">{user?.email || 'Logged in'}</span>
         </div>
-        <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold shadow-inner">
+        <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400 flex items-center justify-center font-bold shadow-inner">
           <User size={18} />
         </div>
         <button 
           onClick={logout}
-          className="w-9 h-9 flex items-center justify-center rounded-full text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+          className="w-9 h-9 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
           title="Logout"
         >
           <LogOut size={18} />

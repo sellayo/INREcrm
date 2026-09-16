@@ -6,15 +6,20 @@ import { createClient } from '@/lib/supabase';
 import toast from 'react-hot-toast';
 import { Save, FileText, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
 
 export default function SettingsPage() {
   const { logout, role } = useAuth();
   const supabase = createClient();
+  const { theme, setTheme } = useTheme();
   
   const [invoiceNo, setInvoiceNo] = useState('');
   const [receiptNo, setReceiptNo] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (role !== 'admin') return;
@@ -54,26 +59,26 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col pt-8 px-4 pb-24">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col pt-8 px-4 pb-24 transition-colors">
       <header className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Settings</h1>
-        <p className="text-sm text-slate-500">Manage your preferences</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Settings</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Manage your preferences</p>
       </header>
       
       <div className="flex-1 space-y-6">
         
         {role === 'admin' && (
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 space-y-6">
             <div>
-              <h3 className="font-semibold text-slate-900 text-lg">Document Settings (Admin)</h3>
-              <p className="text-xs text-slate-500">Set the starting sequence for newly generated documents.</p>
+              <h3 className="font-semibold text-slate-900 dark:text-white text-lg">Document Settings (Admin)</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Set the starting sequence for newly generated documents.</p>
             </div>
             
             {isLoading ? (
               <div className="animate-pulse flex space-x-4">
                 <div className="flex-1 space-y-4 py-1">
-                  <div className="h-4 bg-slate-200 rounded w-3/4"></div>
-                  <div className="h-4 bg-slate-200 rounded w-1/2"></div>
+                  <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                  <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
                 </div>
               </div>
             ) : (
@@ -86,7 +91,7 @@ export default function SettingsPage() {
                     type="number" 
                     value={invoiceNo}
                     onChange={(e) => setInvoiceNo(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                     placeholder="e.g. 1001"
                   />
                 </div>
@@ -99,7 +104,7 @@ export default function SettingsPage() {
                     type="number" 
                     value={receiptNo}
                     onChange={(e) => setReceiptNo(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                     placeholder="e.g. 5001"
                   />
                 </div>
@@ -109,7 +114,7 @@ export default function SettingsPage() {
                   disabled={isSaving}
                   className={cn(
                     "w-full py-3 rounded-xl font-semibold shadow-sm transition-colors flex items-center justify-center gap-2",
-                    isSaving ? "bg-slate-200 text-slate-400" : "bg-blue-600 text-white hover:bg-blue-700"
+                    isSaving ? "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500" : "bg-blue-600 text-white hover:bg-blue-700"
                   )}
                 >
                   <Save size={18} /> {isSaving ? 'Saving...' : 'Save Settings'}
@@ -119,23 +124,32 @@ export default function SettingsPage() {
           </div>
         )}
 
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-between">
           <div>
-            <h3 className="font-semibold text-slate-900">Notifications</h3>
-            <p className="text-xs text-slate-500">Email and push alerts</p>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Notifications</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Email and push alerts</p>
           </div>
-          <div className="w-12 h-6 bg-slate-200 rounded-full relative cursor-pointer">
+          <div className="w-12 h-6 bg-slate-200 dark:bg-slate-700 rounded-full relative cursor-not-allowed opacity-50">
             <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-between">
           <div>
-            <h3 className="font-semibold text-slate-900">Dark Mode</h3>
-            <p className="text-xs text-slate-500">Toggle dark theme</p>
+            <h3 className="font-semibold text-slate-900 dark:text-white">Dark Mode</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Toggle dark theme</p>
           </div>
-          <div className="w-12 h-6 bg-slate-200 rounded-full relative cursor-pointer">
-            <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+          <div 
+            onClick={() => mounted && setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className={cn(
+              "w-12 h-6 rounded-full relative cursor-pointer transition-colors duration-200 ease-in-out",
+              mounted && theme === 'dark' ? "bg-blue-600" : "bg-slate-200 dark:bg-slate-700"
+            )}
+          >
+            <div className={cn(
+              "absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out",
+              mounted && theme === 'dark' ? "translate-x-7" : "translate-x-1"
+            )}></div>
           </div>
         </div>
         

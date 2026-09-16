@@ -201,17 +201,17 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-slate-100 w-full max-w-6xl rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-[90vh]"
+        className="bg-slate-100 dark:bg-slate-950 w-full max-w-6xl rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-[90vh]"
       >
         {/* Editor Sidebar */}
-        <div className="w-full md:w-2/5 bg-white border-r border-slate-200 flex flex-col h-full">
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-white shrink-0">
-            <h3 className="font-bold text-lg text-slate-900 flex items-center gap-2 capitalize">
-              <FileText size={20} className="text-blue-600" /> {docType} Builder
+        <div className="w-full md:w-2/5 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full">
+          <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 shrink-0">
+            <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2 capitalize">
+              <FileText size={20} className="text-blue-600 dark:text-blue-400" /> {docType} Builder
             </h3>
             <button 
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
             >
               <X size={18} />
             </button>
@@ -220,64 +220,64 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
           <div className="p-6 overflow-y-auto flex-1 space-y-6">
             <div className="grid grid-cols-1 gap-4">
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Received From</label>
+                <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1 block">Received From</label>
                 <input 
                   type="text" 
                   value={receivedFrom}
                   onChange={e => setReceivedFrom(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-100 border-none rounded-xl text-sm focus:ring-2 focus:ring-blue-500 font-medium"
+                  className="w-full px-3 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-blue-500 font-medium dark:text-white"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Client Address</label>
+                <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1 block">Client Address</label>
                 <input 
                   type="text" 
                   value={address}
                   onChange={e => setAddress(e.target.value)}
                   placeholder="Street, City, Zip"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 dark:text-white"
                 />
               </div>
               {docType === 'receipt' && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Payment Method</label>
+                    <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1 block">Payment Method</label>
                     <input 
                       type="text" 
                       value={paymentMethod}
                       onChange={e => setPaymentMethod(e.target.value)}
                       placeholder="e.g. UPI via Google Pay"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Transaction ID</label>
+                    <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1 block">Transaction ID</label>
                     <input 
                       type="text" 
                       value={transactionId}
                       onChange={e => setTransactionId(e.target.value)}
                       placeholder="e.g. 620563402"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 dark:text-white"
                     />
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="pt-4 border-t border-slate-100">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
               <div className="flex justify-between items-center mb-4">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Line Items</label>
-                <button onClick={addLineItem} className="text-xs font-bold text-blue-600 flex items-center gap-1 hover:text-blue-700">
+                <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Line Items</label>
+                <button onClick={addLineItem} className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 hover:text-blue-700 dark:hover:text-blue-300">
                   <Plus size={14} /> Add Item
                 </button>
               </div>
               
               <div className="space-y-4">
                 {lineItems.map((item, index) => (
-                  <div key={item.id} className="p-4 bg-slate-50 border border-slate-200 rounded-xl relative group">
+                  <div key={item.id} className="p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl relative group">
                     <button 
                       onClick={() => removeLineItem(item.id)}
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <Trash2 size={12} />
                     </button>
@@ -288,7 +288,7 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
                           placeholder="Service Name"
                           value={item.service}
                           onChange={e => updateLineItem(item.id, 'service', e.target.value)}
-                          className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 font-semibold"
+                          className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 font-semibold dark:text-white"
                         />
                       </div>
                       <div className="col-span-1">
@@ -297,7 +297,7 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
                           placeholder="Price (₹)"
                           value={item.price}
                           onChange={e => updateLineItem(item.id, 'price', e.target.value)}
-                          className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 dark:text-white"
                         />
                       </div>
                     </div>
@@ -306,25 +306,25 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
                       value={item.description}
                       onChange={e => updateLineItem(item.id, 'description', e.target.value)}
                       rows={2}
-                      className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none dark:text-white"
                     />
                   </div>
                 ))}
               </div>
               <div className="mt-4 flex justify-between items-center px-2">
-                <span className="font-semibold text-slate-500">Total</span>
-                <span className="font-bold text-xl text-blue-600">₹{totalAmount}</span>
+                <span className="font-semibold text-slate-500 dark:text-slate-400">Total</span>
+                <span className="font-bold text-xl text-blue-600 dark:text-blue-400">₹{totalAmount}</span>
               </div>
             </div>
           </div>
 
-          <div className="p-5 border-t border-slate-100 bg-slate-50 flex flex-col gap-3 shrink-0">
+          <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col gap-3 shrink-0">
             <button 
               onClick={handleDownload}
               disabled={!isValidToSave}
               className={cn(
                 "w-full py-3 rounded-xl font-semibold shadow-sm transition-colors flex items-center justify-center gap-2",
-                isValidToSave ? "bg-slate-900 text-white hover:bg-slate-800" : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                isValidToSave ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200" : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed"
               )}
             >
               <Download size={18} /> Download PDF
@@ -334,7 +334,7 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
               disabled={isSaving || isSaved || !isValidToSave}
               className={cn(
                 "w-full py-3 rounded-xl font-semibold shadow-sm transition-colors flex items-center justify-center gap-2",
-                isSaved ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700 hover:bg-blue-200 disabled:opacity-50"
+                isSaved ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" : "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900/50 disabled:opacity-50"
               )}
             >
               {isSaved ? <><CheckCircle size={18} /> Saved to CRM</> : isSaving ? 'Saving...' : <><Save size={18} /> Save to CRM</>}
@@ -343,7 +343,7 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
         </div>
 
         {/* PDF Preview Pane */}
-        <div className="flex-1 bg-slate-200 p-4 md:p-8 overflow-auto">
+        <div className="fixed top-[-9999px] left-[-9999px] md:static md:flex md:flex-1 bg-slate-200 dark:bg-slate-950 p-4 md:p-8 overflow-auto">
           <div className="min-w-[700px] flex items-start justify-center">
             <div 
               ref={printRef}
@@ -367,7 +367,7 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
                     SELLAYO PRIVATE LIMITED
                   </h1>
                   <p style={{ fontSize: '10px', color: '#64748b', margin: '4px 0 0 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Sell To Anyone, Anywhere, Automatically
+                    Sell to anyone. In any language. Automatically.
                   </p>
                 </div>
               </div>

@@ -46,8 +46,8 @@ export default function DocumentsPage() {
   return (
     <div className="p-6 md:p-10 pb-24 md:pb-10 max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <header className="mb-8">
-        <h1 className="text-3xl font-black tracking-tight text-slate-900 mb-2">Documents</h1>
-        <p className="text-slate-500 font-medium text-sm">Select a document type and a client to generate.</p>
+        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2">Documents</h1>
+        <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">Select a document type and a client to generate.</p>
       </header>
 
       {/* Document Type Selector */}
@@ -66,21 +66,21 @@ export default function DocumentsPage() {
               className={cn(
                 "p-6 rounded-2xl border-2 text-left transition-all duration-200 flex flex-col gap-3 group relative overflow-hidden",
                 isActive 
-                  ? "border-blue-600 bg-blue-50 shadow-sm" 
-                  : "border-slate-200 bg-white hover:border-blue-300 hover:bg-slate-50"
+                  ? "border-blue-600 bg-blue-50 dark:bg-blue-900/30 shadow-sm" 
+                  : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
               <div className={cn(
                 "w-12 h-12 rounded-full flex items-center justify-center transition-colors",
-                isActive ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-600"
+                isActive ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 group-hover:text-blue-600 dark:group-hover:text-blue-400"
               )}>
                 <Icon size={24} />
               </div>
               <div>
-                <h3 className={cn("text-lg font-bold capitalize", isActive ? "text-blue-900" : "text-slate-900")}>
+                <h3 className={cn("text-lg font-bold capitalize", isActive ? "text-blue-900 dark:text-blue-300" : "text-slate-900 dark:text-white")}>
                   {item.label}
                 </h3>
-                <p className="text-sm font-medium text-slate-500">{item.desc}</p>
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{item.desc}</p>
               </div>
               
               {/* Active Indicator Ring */}
@@ -95,45 +95,45 @@ export default function DocumentsPage() {
       {/* Search Bar */}
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <Search size={20} className="text-slate-400" />
+          <Search size={20} className="text-slate-400 dark:text-slate-500" />
         </div>
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={`Search to generate ${selectedDocType}...`}
-          className="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-4 text-base font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all"
+          className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl pl-11 pr-4 py-4 text-base font-medium dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all"
         />
       </div>
 
       {/* Contact List */}
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
         {isLoading ? (
-          <div className="p-12 text-center text-slate-500">Loading contacts...</div>
+          <div className="p-12 text-center text-slate-500 dark:text-slate-400">Loading contacts...</div>
         ) : filteredContacts.length === 0 ? (
-          <div className="p-12 text-center text-slate-500 font-medium">
+          <div className="p-12 text-center text-slate-500 dark:text-slate-400 font-medium">
             No contacts found matching "{search}"
           </div>
         ) : (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-100 dark:divide-slate-800">
             {filteredContacts.map(contact => (
               <button
                 key={contact.id}
                 onClick={() => setSelectedContact(contact)}
-                className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors group"
+                className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
               >
                 <div>
-                  <h4 className="text-base font-bold text-slate-900">{contact.name}</h4>
-                  <p className="text-sm text-slate-500">{contact.niche}</p>
+                  <h4 className="text-base font-bold text-slate-900 dark:text-white">{contact.name}</h4>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{contact.niche}</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className={cn(
                     "text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider",
-                    contact.type === 'client' ? "bg-blue-100 text-blue-700" : "bg-amber-100 text-amber-700"
+                    contact.type === 'client' ? "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400" : "bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400"
                   )}>
                     {contact.type}
                   </span>
-                  <div className="w-10 h-10 rounded-full bg-slate-100 text-blue-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-blue-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <FileText size={18} />
                   </div>
                 </div>

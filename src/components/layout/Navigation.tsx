@@ -32,7 +32,7 @@ export default function Navigation() {
   return (
     <>
       {/* Mobile Bottom Tab Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-blue-50/90 backdrop-blur-md border-t border-blue-100 pb-safe">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-blue-50/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-blue-100 dark:border-slate-800 pb-safe">
         <nav className="flex justify-around items-center h-16 px-4">
           {tabs.map((tab) => {
             const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`);
@@ -47,7 +47,7 @@ export default function Navigation() {
                 <div
                   className={cn(
                     "p-2 rounded-2xl transition-colors duration-200",
-                    isActive ? "text-blue-600" : "text-slate-500"
+                    isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-500 dark:text-slate-400"
                   )}
                 >
                   <Icon size={24} strokeWidth={isActive ? 2.5 : 2} />
@@ -55,7 +55,7 @@ export default function Navigation() {
                 <span 
                   className={cn(
                     "text-[10px] font-medium transition-colors",
-                    isActive ? "text-blue-600" : "text-slate-500"
+                    isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-500 dark:text-slate-400"
                   )}
                 >
                   {tab.name}
@@ -69,7 +69,7 @@ export default function Navigation() {
       {/* Desktop Sidebar */}
       <div 
         className={cn(
-          "hidden md:flex flex-col fixed top-16 left-0 bottom-0 bg-blue-600 border-r border-blue-700 py-8 z-50 transition-all duration-300 shadow-xl",
+          "hidden md:flex flex-col fixed top-16 left-0 bottom-0 bg-blue-600 dark:bg-slate-950 border-r border-blue-700 dark:border-slate-900 py-8 z-50 transition-all duration-300 shadow-xl",
           isSidebarCollapsed ? "w-20 px-2" : "w-64 px-4"
         )}
       >
@@ -86,8 +86,8 @@ export default function Navigation() {
                   "flex items-center rounded-xl transition-all duration-200 group relative",
                   isSidebarCollapsed ? "justify-center p-3" : "gap-3 px-3 py-3",
                   isActive 
-                    ? "bg-white text-blue-700 font-bold shadow-md" 
-                    : "text-blue-100 hover:bg-blue-700 hover:text-white font-medium"
+                    ? "bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 font-bold shadow-md" 
+                    : "text-blue-100 dark:text-slate-400 hover:bg-blue-700 dark:hover:bg-slate-800 hover:text-white font-medium"
                 )}
                 title={isSidebarCollapsed ? tab.name : undefined}
               >

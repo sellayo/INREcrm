@@ -124,16 +124,16 @@ export default function DashboardPage() {
     <div className="min-h-screen p-4 md:p-8 pb-24 md:pb-8">
       <header className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
-          <p className="text-sm text-slate-500 capitalize">{role} Overview</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Dashboard</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 capitalize">{role} Overview</p>
         </div>
         
         <div className="relative">
           <button 
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-medium shadow-sm hover:bg-slate-50 transition-colors"
+            className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-xl text-sm font-medium shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
           >
-            {timeFilter} <ChevronDown size={16} className="text-slate-400" />
+            {timeFilter} <ChevronDown size={16} className="text-slate-400 dark:text-slate-500" />
           </button>
           
           <AnimatePresence>
@@ -142,7 +142,7 @@ export default function DashboardPage() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 z-10 py-2"
+                className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-100 dark:border-slate-800 z-10 py-2"
               >
                 {timeOptions.map(opt => (
                   <button
@@ -152,8 +152,8 @@ export default function DashboardPage() {
                       setIsFilterOpen(false);
                     }}
                     className={cn(
-                      "w-full text-left px-4 py-2 text-sm hover:bg-slate-50 transition-colors",
-                      timeFilter === opt ? "text-blue-600 font-semibold bg-blue-50/50" : "text-slate-700"
+                      "w-full text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors",
+                      timeFilter === opt ? "text-blue-600 dark:text-blue-400 font-semibold bg-blue-50/50 dark:bg-blue-900/20" : "text-slate-700 dark:text-slate-300"
                     )}
                   >
                     {opt}
@@ -168,18 +168,18 @@ export default function DashboardPage() {
       {/* Overview Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
         {[
-          { label: 'Total Leads', value: totalLeads.toString(), icon: Users, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100', glow: 'shadow-blue-500/10' },
-          { label: 'Closed Won', value: closedWon.toString(), icon: TrendingUp, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100', glow: 'shadow-emerald-500/10' },
-          { label: 'Lost', value: lost.toString(), icon: TrendingDown, color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-100', glow: 'shadow-rose-500/10' },
-          { label: 'Invoices Sent', value: invoicesSent.toString(), icon: FileText, color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-100', glow: 'shadow-indigo-500/10' },
-          { label: 'Receipts Sent', value: receiptsSent.toString(), icon: CheckCircle, color: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-100', glow: 'shadow-teal-500/10' },
+          { label: 'Total Leads', value: totalLeads.toString(), icon: Users, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-100 dark:border-blue-900/50', glow: 'shadow-blue-500/10' },
+          { label: 'Closed Won', value: closedWon.toString(), icon: TrendingUp, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-100 dark:border-emerald-900/50', glow: 'shadow-emerald-500/10' },
+          { label: 'Lost', value: lost.toString(), icon: TrendingDown, color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-900/20', border: 'border-rose-100 dark:border-rose-900/50', glow: 'shadow-rose-500/10' },
+          { label: 'Invoices Sent', value: invoicesSent.toString(), icon: FileText, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-100 dark:border-indigo-900/50', glow: 'shadow-indigo-500/10' },
+          { label: 'Receipts Sent', value: receiptsSent.toString(), icon: CheckCircle, color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/20', border: 'border-teal-100 dark:border-teal-900/50', glow: 'shadow-teal-500/10' },
         ].map((stat, i) => {
           const Icon = stat.icon;
           return (
             <div 
               key={i} 
               className={cn(
-                "group relative p-5 rounded-3xl border flex flex-col bg-white hover:-translate-y-1 transition-all duration-300 shadow-md",
+                "group relative p-5 rounded-3xl border flex flex-col bg-white dark:bg-slate-900 hover:-translate-y-1 transition-all duration-300 shadow-md",
                 stat.border, stat.glow,
                 "[&:nth-child(5)]:col-span-2 md:[&:nth-child(5)]:col-span-1"
               )}
@@ -187,9 +187,9 @@ export default function DashboardPage() {
               <div className={cn("w-10 h-10 rounded-2xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110", stat.bg, stat.color)}>
                 <Icon size={20} strokeWidth={2.5} />
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">{stat.label}</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">{stat.label}</span>
               <div className="flex items-end justify-between mt-auto">
-                <span className="text-2xl font-extrabold text-slate-900 tracking-tight">{stat.value}</span>
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">{stat.value}</span>
               </div>
               
               {/* Subtle background glow effect on hover */}
@@ -225,16 +225,16 @@ export default function DashboardPage() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
               {/* Wizard Header */}
-              <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <h3 className="font-semibold text-slate-900">
+              <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
+                <h3 className="font-semibold text-slate-900 dark:text-white">
                   {step === 9 ? 'Review & Confirm' : `Add Lead - Step ${step} of 8`}
                 </h3>
                 <button 
                   onClick={() => setIsWizardOpen(false)}
-                  className="text-slate-400 hover:text-slate-600 p-2"
+                  className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 p-2"
                 >
                   Cancel
                 </button>
@@ -263,7 +263,7 @@ export default function DashboardPage() {
                       value={leadData.business_name}
                       onChange={e => setLeadData({...leadData, business_name: e.target.value})}
                       placeholder="Second Page/Business Name"
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                       onKeyDown={e => e.key === 'Enter' && leadData.name && handleNextStep()}
                     />
                   </motion.div>
@@ -280,7 +280,7 @@ export default function DashboardPage() {
                       value={leadData.email}
                       onChange={e => setLeadData({...leadData, email: e.target.value})}
                       placeholder="e.g. john@example.com"
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                       onKeyDown={e => e.key === 'Enter' && leadData.email && handleNextStep()}
                     />
                   </motion.div>
@@ -297,7 +297,7 @@ export default function DashboardPage() {
                       value={leadData.phone}
                       onChange={e => setLeadData({...leadData, phone: e.target.value})}
                       placeholder="e.g. +1 234 567 8900"
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                       onKeyDown={e => e.key === 'Enter' && leadData.phone && handleNextStep()}
                     />
                   </motion.div>
@@ -314,7 +314,7 @@ export default function DashboardPage() {
                       value={leadData.niche}
                       onChange={e => setLeadData({...leadData, niche: e.target.value})}
                       placeholder="e.g. E-commerce, Course Creator"
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                       onKeyDown={e => e.key === 'Enter' && leadData.niche && handleNextStep()}
                     />
                   </motion.div>
@@ -331,7 +331,7 @@ export default function DashboardPage() {
                       value={leadData.social_media}
                       onChange={e => setLeadData({...leadData, social_media: e.target.value})}
                       placeholder="e.g. https://linkedin.com/in/..."
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                       onKeyDown={e => e.key === 'Enter' && handleNextStep()}
                     />
                   </motion.div>
@@ -348,7 +348,7 @@ export default function DashboardPage() {
                       value={leadData.whatsapp_number}
                       onChange={e => setLeadData({...leadData, whatsapp_number: e.target.value})}
                       placeholder="e.g. +1 234 567 8900"
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                       onKeyDown={e => e.key === 'Enter' && handleNextStep()}
                     />
                   </motion.div>
@@ -365,7 +365,7 @@ export default function DashboardPage() {
                       value={leadData.service}
                       onChange={e => setLeadData({...leadData, service: e.target.value})}
                       placeholder="e.g. SEO, Web Dev"
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                       onKeyDown={e => e.key === 'Enter' && handleNextStep()}
                     />
                   </motion.div>
@@ -382,7 +382,7 @@ export default function DashboardPage() {
                       onChange={e => setLeadData({...leadData, notes: e.target.value})}
                       placeholder="Additional details..."
                       rows={3}
-                      className="w-full text-lg p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-colors"
+                      className="w-full text-lg p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-500 focus:ring-0 outline-none transition-colors dark:text-white"
                     />
                   </motion.div>
                 )}
@@ -396,7 +396,7 @@ export default function DashboardPage() {
                       <p className="text-slate-500 text-sm">Please confirm the lead information.</p>
                     </div>
 
-                    <div className="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <div className="space-y-3 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
                       {[
                         { label: 'Name', value: leadData.name, stepToEdit: 1 },
                         { label: 'Email', value: leadData.email, stepToEdit: 2 },
@@ -407,14 +407,14 @@ export default function DashboardPage() {
                         { label: 'Service', value: leadData.service, stepToEdit: 7 },
                         { label: 'Notes', value: leadData.notes, stepToEdit: 8 },
                       ].map(item => (
-                        <div key={item.label} className="flex items-center justify-between pb-3 border-b border-slate-200 last:border-0 last:pb-0">
+                        <div key={item.label} className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 last:border-0 last:pb-0">
                           <div>
-                            <p className="text-xs text-slate-400 font-semibold uppercase">{item.label}</p>
-                            <p className="font-medium text-slate-900">{item.value || '-'}</p>
+                            <p className="text-xs text-slate-400 dark:text-slate-500 font-semibold uppercase">{item.label}</p>
+                            <p className="font-medium text-slate-900 dark:text-white">{item.value || '-'}</p>
                           </div>
                           <button 
                             onClick={() => setStep(item.stepToEdit)}
-                            className="text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
+                            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-lg transition-colors"
                           >
                             Edit
                           </button>
@@ -426,11 +426,11 @@ export default function DashboardPage() {
               </div>
 
               {/* Wizard Footer */}
-              <div className="p-6 border-t border-slate-100 flex gap-3 bg-slate-50/50">
+              <div className="p-6 border-t border-slate-100 dark:border-slate-800 flex gap-3 bg-slate-50/50 dark:bg-slate-800/50">
                 {step > 1 && step < 9 && (
                   <button 
                     onClick={handlePrevStep}
-                    className="px-6 py-3 rounded-xl font-semibold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
+                    className="px-6 py-3 rounded-xl font-semibold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                   >
                     Back
                   </button>
