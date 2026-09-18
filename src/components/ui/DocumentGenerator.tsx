@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X, Download, Save, FileText, CheckCircle, Plus, Trash2 } from 'lucide-react';
+import { X, Download, Save, FileText, CheckCircle, Plus, Trash2, Sparkles } from 'lucide-react';
 import { Contact, LineItem } from '@/types';
 import { createClient } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
@@ -19,7 +19,12 @@ interface DocumentGeneratorProps {
 
 type DocType = 'proposal' | 'invoice' | 'receipt';
 
-
+interface CachedQuote {
+  service: string;
+  price: string;
+  description: string;
+  timestamp?: number;
+}
 
 export default function DocumentGenerator({ contact, isOpen, onClose, onContactUpdate, initialDocType = 'invoice' }: DocumentGeneratorProps) {
   const [docType, setDocType] = useState<DocType>(initialDocType);
@@ -32,6 +37,9 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
   const [lineItems, setLineItems] = useState<LineItem[]>([
     { id: '1', service: '', description: '', price: '' }
   ]);
+  
+  // Cached Quote from Price Calculator
+  const [cachedQuote, setCachedQuote] = useState<CachedQuote | null>(null);
   
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -89,8 +97,36 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
       // Avoid calling setState synchronously in effect if not needed, but here it is needed to sync props
       // We wrap it in setTimeout to avoid the React warning
       setTimeout(() => setReceivedFrom(contact.name), 0);
+
+      // Check for cached quote from Price Calculator
+      if (typeof window !== 'undefined') {
+        const stored = sessionStorage.getItem('inrecrm_calculated_quote');
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (parsed && parsed.service && parsed.price) {
+              setCachedQuote(parsed);
+            }
+          } catch (e) {
+            console.error('Error reading calculated quote:', e);
+          }
+        }
+      }
     }
   }, [docType, contact.id, contact.name, isOpen, supabase]);
+
+  const handlePasteCalculatedPrice = () => {
+    if (!cachedQuote) return;
+    setLineItems([
+      {
+        id: Math.random().toString(),
+        service: cachedQuote.service,
+        price: cachedQuote.price,
+        description: cachedQuote.description
+      }
+    ]);
+    toast.success(`Pasted "${cachedQuote.service}" (₹${Number(cachedQuote.price).toLocaleString('en-IN')}) into document!`);
+  };
 
   const calculateTotal = () => {
     return lineItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
@@ -265,11 +301,24 @@ export default function DocumentGenerator({ contact, isOpen, onClose, onContactU
             </div>
 
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
                 <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Line Items</label>
-                <button onClick={addLineItem} className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 hover:text-blue-700 dark:hover:text-blue-300">
-                  <Plus size={14} /> Add Item
-                </button>
+                <div className="flex items-center gap-2">
+                  {cachedQuote && (
+                    <button 
+                      type="button"
+                      onClick={handlePasteCalculatedPrice}
+                      className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 px-3 py-1.5 rounded-xl flex items-center gap-1.5 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors shadow-sm"
+                      title={`Paste: ${cachedQuote.service} (₹${Number(cachedQuote.price).toLocaleString('en-IN')})`}
+                    >
+                      <Sparkles size={13} className="text-emerald-500" />
+                      <span>Paste Calculated Price (₹{Number(cachedQuote.price).toLocaleString('en-IN')})</span>
+                    </button>
+                  )}
+                  <button onClick={addLineItem} className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 hover:text-blue-700 dark:hover:text-blue-300">
+                    <Plus size={14} /> Add Item
+                  </button>
+                </div>
               </div>
               
               <div className="space-y-4">

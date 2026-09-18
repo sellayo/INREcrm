@@ -45,3 +45,56 @@ export interface Contact {
   proposals?: DocumentRecord[];
   created_at?: string;
 }
+
+export interface PricingPackage {
+  id: string;
+  name: string;
+  quantity: number;
+  pricePerUnit: number;
+  totalPrice: number;
+  discountPct: number;
+  description?: string;
+}
+
+export interface PricingAddon {
+  id: string;
+  name: string;
+  price: number;
+  billingType: 'one-time' | 'per-unit' | 'per-month';
+  description?: string;
+}
+
+export interface PricingService {
+  id: string;
+  name: string;
+  category: 'Market Expansion' | 'Video Translation' | 'Automation & AI' | 'Content & Social' | 'Custom';
+  billingType: 'per-video' | 'one-time' | 'per-month' | 'tiered';
+  basePrice: number;
+  scopeDescription: string;
+  durationIncluded?: string; // e.g. "1 - 1.5 min"
+  packages?: PricingPackage[];
+  addons?: PricingAddon[];
+  isCustom?: boolean;
+}
+
+export interface CalculationOptions {
+  serviceId: string;
+  quantity?: number;
+  packageId?: string;
+  additionalLanguages?: number;
+  extraDurationBlocks?: number; // 30s blocks beyond base
+  extraLangDurationBlocks?: number;
+  captionType?: 'none' | 'easy-medium' | 'complex';
+  additionalPlatforms?: number;
+  months?: number; // for monthly retainers
+}
+
+export interface CalculationResult {
+  serviceName: string;
+  totalPrice: number;
+  basePrice: number;
+  discountAmount: number;
+  shortDescription: string;
+  breakdown: { label: string; amount: number }[];
+}
+

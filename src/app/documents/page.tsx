@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, FileText, CheckCircle, FileSignature } from 'lucide-react';
+import { Search, FileText, CheckCircle, FileSignature, Sparkles } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
 import { Contact } from '@/types';
 import { cn } from '@/lib/utils';
@@ -9,17 +9,37 @@ import DocumentGenerator from '@/components/ui/DocumentGenerator';
 
 type DocType = 'proposal' | 'invoice' | 'receipt';
 
+interface CachedQuote {
+  service: string;
+  price: string;
+  description: string;
+}
+
 export default function DocumentsPage() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDocType, setSelectedDocType] = useState<DocType>('invoice');
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [activeQuote, setActiveQuote] = useState<CachedQuote | null>(null);
 
   const supabase = createClient();
 
   useEffect(() => {
     fetchContacts();
+    if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('inrecrm_calculated_quote');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed?.service && parsed?.price) {
+            setActiveQuote(parsed);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
   }, []);
 
   const fetchContacts = async () => {
@@ -91,6 +111,34 @@ export default function DocumentsPage() {
           )
         })}
       </div>
+
+      {/* Calculated Quote Notice Banner */}
+      {activeQuote && (
+        <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 flex items-center justify-between gap-3 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <Sparkles size={18} />
+            </div>
+            <div>
+              <span className="text-xs font-bold text-emerald-950 dark:text-emerald-200 block">
+                Calculated Quote Ready: {activeQuote.service} (₹{Number(activeQuote.price).toLocaleString('en-IN')})
+              </span>
+              <span className="text-[11px] text-emerald-700/80 dark:text-emerald-300/80">
+                Select any client below, then click &quot;Paste Calculated Price&quot; inside the document builder to apply.
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              sessionStorage.removeItem('inrecrm_calculated_quote');
+              setActiveQuote(null);
+            }}
+            className="text-[11px] text-emerald-600 dark:text-emerald-400 hover:underline font-semibold shrink-0"
+          >
+            Clear
+          </button>
+        </div>
+      )}
 
       {/* Search Bar */}
       <div className="relative">

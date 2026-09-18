@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Settings, LogOut, FileText, ShieldAlert, History } from 'lucide-react';
+import { Home, Users, Settings, LogOut, FileText, ShieldAlert, History, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
@@ -17,11 +17,8 @@ export default function Navigation() {
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'CRM', href: '/crm', icon: Users },
     { name: 'Documents', href: '/documents', icon: FileText },
+    { name: 'Services', href: '/services', icon: Layers },
   ];
-
-  if (role === 'internal' || role === 'admin') {
-    tabs.push({ name: 'History', href: '/history', icon: History });
-  }
 
   if (role === 'admin') {
     tabs.push({ name: 'Team', href: '/team', icon: ShieldAlert });
@@ -35,7 +32,7 @@ export default function Navigation() {
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-blue-50/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-blue-100 dark:border-slate-800 pb-safe">
         <nav className="flex justify-around items-center h-16 px-4">
           {tabs.map((tab) => {
-            const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`);
+            const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`) || (tab.href === '/services' && pathname?.startsWith('/history'));
             const Icon = tab.icon;
 
             return (
@@ -75,7 +72,7 @@ export default function Navigation() {
       >
         <nav className="flex-1 space-y-2">
           {tabs.map((tab) => {
-            const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`);
+            const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`) || (tab.href === '/services' && pathname?.startsWith('/history'));
             const Icon = tab.icon;
 
             return (
